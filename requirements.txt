@@ -1,0 +1,50 @@
+# MSST Web Port – full requirements (server-side Flask)
+# Compatible with Hugging Face Spaces / Docker / local
+
+# ---- Web server (REQUIRED) ----
+flask>=3.0.0
+werkzeug>=3.0.0
+gunicorn>=21.0.0
+
+# ---- Core deep learning ----
+torch>=2.0.1
+torchaudio>=2.0.0
+numpy
+scipy
+librosa
+soundfile
+tqdm
+
+# ---- MSST specific ----
+omegaconf==2.2.3
+ml_collections
+einops==0.8.1
+beartype==0.14.1
+rotary_embedding_torch==0.3.5
+pyyaml
+hydra-core
+
+# ---- Optional but commonly needed by models ----
+segmentation_models_pytorch==0.3.3
+timm==0.9.2
+demucs==4.0.0
+transformers>=4.35.0
+torchmetrics==0.11.4
+auraloss
+asteroid==0.7.0
+spafe==0.3.2
+protobuf==3.20.3
+huggingface-hub>=0.23.0
+
+# ---- Audio augmentations (used by training, harmless for inference) ----
+audiomentations==0.24.0
+pedalboard~=0.8.1
+torch_audiomentations
+
+# ---- Misc ----
+pandas
+matplotlib
+accelerate
+bitsandbytes
+wandb
+torchseg

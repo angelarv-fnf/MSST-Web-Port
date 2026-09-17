@@ -1,0 +1,25 @@
+# MSST Web Port requirements
+# Core MSST + Flask server
+
+# From original MSST (see also requirements.txt)
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy
+librosa
+soundfile
+tqdm
+omegaconf
+ml_collections
+einops
+beartype
+rotary_embedding_torch
+hydra-core
+pyyaml
+
+# Web server
+flask>=3.0.0
+werkzeug>=3.0.0
+
+# Optional but recommended
+scipy
+matplotlib
