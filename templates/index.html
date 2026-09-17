@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MSST Web Port – Music Source Separation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">♫</span>
+        <div>
+          <h1>MSST Web Port</h1>
+          <p class="subtitle">Server-side Music Source Separation (v1.0.22)</p>
+        </div>
+      </div>
+      <div class="device-badge" id="deviceBadge">Device: {{ device }}</div>
+    </header>
+
+    <main class="main">
+      <!-- Upload Section -->
+      <section class="card">
+        <h2>1. Upload Audio</h2>
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="audioFile" accept="audio/*,.wav,.flac,.mp3,.ogg,.m4a" hidden />
+          <div class="dropzone-content">
+            <div class="drop-icon">⬆</div>
+            <p>Drag & drop an audio file here</p>
+            <p class="hint">or click to browse (WAV, FLAC, MP3, OGG…)</p>
+            <p class="file-name" id="fileName"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Model Configuration -->
+      <section class="card">
+        <h2>2. Model & Config</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="modelType">Model Type</label>
+            <select id="modelType">
+              {% for mt in model_types %}
+              <option value="{{ mt }}" {% if mt == 'mdx23c' %}selected{% endif %}>{{ mt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="configPath">Config YAML</label>
+            <select id="configPath">
+              <option value="">— Select a config —</option>
+              {% for c in configs %}
+              <option value="{{ c }}">{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="checkpointPath">Checkpoint (optional)</label>
+            <select id="checkpointPath">
+              <option value="">— No checkpoint / use random weights —</option>
+              {% for ck in checkpoints %}
+              <option value="{{ ck }}">{{ ck }}</option>
+              {% endfor %}
+            </select>
+            <p class="hint">Place .ckpt / .pth files inside the <code>checkpoints/</code> folder</p>
+          </div>
+
+          <div class="form-group">
+            <label for="targetInstrument">Target Instrument (optional)</label>
+            <input type="text" id="targetInstrument" placeholder="e.g. vocals, drums, bass…" />
+          </div>
+        </div>
+
+        <div class="options-row">
+          <label class="checkbox">
+            <input type="checkbox" id="useTta" />
+            Use Test-Time Augmentation (TTA)
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="extractInstrumental" />
+            Also extract instrumental (mixture − vocals)
+          </label>
+        </div>
+      </section>
+
+      <!-- Run -->
+      <section class="card actions">
+        <button id="runBtn" class="btn primary" disabled>
+          <span class="btn-text">Separate Sources</span>
+          <span class="spinner hidden" id="spinner"></span>
+        </button>
+        <button id="clearBtn" class="btn secondary">Clear Cache</button>
+      </section>
+
+      <!-- Progress / Status -->
+      <section class="card hidden" id="statusCard">
+        <h2>Status</h2>
+        <div id="statusMessage" class="status-message"></div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section class="card hidden" id="resultsCard">
+        <h2>3. Results</h2>
+        <div id="resultsMeta" class="results-meta"></div>
+        <div id="stemsList" class="stems-list"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Powered by
+        <a href="https://github.com/ZFTurbo/Music-Source-Separation-Training" target="_blank" rel="noopener">
+          Music-Source-Separation-Training
+        </a>
+        (ZFTurbo) · Server-side Flask port
+      </p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
